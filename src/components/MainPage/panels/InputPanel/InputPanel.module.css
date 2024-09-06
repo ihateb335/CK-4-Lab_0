@@ -1,0 +1,28 @@
+.inputPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .inputField {
+    margin-bottom: 20px;
+  }
+  
+  .inputField label {
+    margin-right: 10px;
+  }
+  
+  .inputField input {
+    width: 80px;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .inputPanel button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
