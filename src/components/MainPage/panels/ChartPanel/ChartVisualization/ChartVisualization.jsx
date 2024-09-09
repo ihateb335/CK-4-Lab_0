@@ -80,7 +80,7 @@ const ChartVisualization = forwardRef( ({
         t:{" "}
         <input
           type="number"
-          value={time}
+          value={Number.parseFloat(time).toFixed(2)}
           step={0.1}
           onChange={(e) => setTime(e.target.value)}
         />

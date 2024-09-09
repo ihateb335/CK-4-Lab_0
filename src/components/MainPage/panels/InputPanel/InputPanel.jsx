@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./InputPanel.module.css";
 
 const VALUES_STEP = 0.1;
@@ -7,19 +7,19 @@ const InputPanel = ({ onCalculate }) => {
   const [mass, setMass] = useState(1.0);
   const [c, setC] = useState(1.5);
   const [x0, setX0] = useState(1.0);
-  const [alpha, setAlpha] = useState(0.0);
+
   const [v0, setV0] = useState(1.5);
   const [steps, setSteps] = useState(100);
   const [stepSize, setStepSize] = useState(0.01);
 
   const k = useMemo(() => Math.sqrt(c / mass), [c, mass]);
+  const A = useMemo(() => x0, [x0]);
+  const B = useMemo(() => k / v0, [k, v0]);
+  const alpha = useMemo(() => Math.atan(A/B), [A,B] )
 
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-
-      const A = x0;
-      const B = k / v0;
 
       const maxValue = Math.sqrt(A * A + B * B);
       const positionFunc = (t) => maxValue * Math.sin(k * t + alpha);
@@ -43,8 +43,13 @@ const InputPanel = ({ onCalculate }) => {
           stepSize,
         });
     },
-    [mass, k, x0, v0, steps, stepSize, alpha]
+    [k, A, B, steps, stepSize, alpha]
   );
+
+  useEffect(() => {
+    handleSubmit({preventDefault: () => {}})
+  }, [handleSubmit])
+
 
   return (
     <div className={styles.inputPanel}>
@@ -92,16 +97,6 @@ const InputPanel = ({ onCalculate }) => {
           m/s
         </div>
         <div className={styles.inputField}>
-          <label>α: </label>
-          <input
-            type="number"
-            value={alpha}
-            step={VALUES_STEP}
-            onChange={(e) => setAlpha(+e.target.value)}
-          />{" "}
-          rad
-        </div>
-        <div className={styles.inputField}>
           <label>Steps: </label>
           <input
             type="number"
@@ -124,7 +119,7 @@ const InputPanel = ({ onCalculate }) => {
           />
         </div>
         <div className={styles.buttonContainer}>
-          <button type="submit">Calculate</button>
+          <button type="submit">Reset</button>
         </div>
       </form>
     </div>
