@@ -70,11 +70,11 @@ const ChartVisualization = forwardRef( ({
   return (
     <div className={styles["chart-visualization"]}>
       <div className={styles["slider-track"]}>
-        <div className={styles["slider-label"]}>{+maxValue.toFixed(2)}</div>
+        <div className={styles["slider-label"]}>{-maxValue.toFixed(2)}</div>
         <div className={styles["slider"]} style={{ left: styledPosition }}>
           <div className={styles["slider-handle"]} />
         </div>
-        <div className={styles["slider-label"]}>{-maxValue.toFixed(2)}</div>
+        <div className={styles["slider-label"]}>{+maxValue.toFixed(2)}</div>
       </div>
       <div>
         t:{" "}
