@@ -1,0 +1,15 @@
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+.chart-side {
+    flex: 2;
+    border-right: 1px solid black;
+    padding: 20px;
+}
+
+.input-side {
+    flex: 1;
+    padding: 20px;
+}

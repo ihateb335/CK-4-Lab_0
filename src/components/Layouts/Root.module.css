@@ -1,0 +1,14 @@
+.linksWrapper {
+    width: 100%;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.contentWrapper {
+    border-top: 1px black solid;
+}

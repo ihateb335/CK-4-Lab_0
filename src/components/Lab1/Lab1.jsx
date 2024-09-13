@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import InputPanel from "./panels/InputPanel/InputPanel";
-import ChartPanel from "./panels/ChartPanel/ChartPanel";
-import styles from "./App.module.css";
+import ChartPanel from "../panels/ChartPanel/ChartPanel";
+import styles from "./Lab1.module.css";
 
-function App() {
+function Lab1() {
   const [data, setData] = useState(null);
   const chartPanelRef = useRef();
 
@@ -21,6 +21,7 @@ function App() {
           handleMove={data?.positionFunc}
           stepSize={data?.stepSize}
           maxValue={data?.maxValue}
+          initialTime={data?.initialTime}
         />
       </div>
       <div className={styles["input-side"]}>
@@ -30,4 +31,4 @@ function App() {
   );
 }
 
-export default App;
+export default Lab1;

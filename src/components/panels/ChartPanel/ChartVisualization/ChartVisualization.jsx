@@ -10,13 +10,14 @@ import React, {
 import styles from "./ChartVisualization.module.css";
 
 const ChartVisualization = forwardRef( ({
+  initialTime = 0,
   maxValue = 1.29,
   handleMove = (t) => Math.sin(t),
   stepSize,
 }, ref) => {
   const [isMoving, setIsMoving] = useState(false);
   const [position, setPosition] = useState(0);
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(initialTime);
   const intervalRef = useRef(null); // To control the animation interval
 
   const toggleMovement = () => {
@@ -24,7 +25,15 @@ const ChartVisualization = forwardRef( ({
   };
 
   const styledPosition = useMemo(
-    () => `calc(${(position / maxValue) * 50}% + 50%)`,
+    () => {
+      let uiPosition = position
+      if (position >= maxValue) {
+        uiPosition = maxValue;
+      } else if (position <= -maxValue) {
+        uiPosition = -maxValue;
+      }
+      return `calc(${(uiPosition / maxValue) * 50}% + 50%)`;
+    },
     [position, maxValue]
   );
 
@@ -43,23 +52,13 @@ const ChartVisualization = forwardRef( ({
   }, [isMoving, stepSize]);
 
   useEffect(() => {
-    setPosition(() => {
-      const newPosition = handleMove(time);
-      if (newPosition >= maxValue) {
-        clearInterval(intervalRef.current);
-        return maxValue;
-      } else if (newPosition <= -maxValue) {
-        clearInterval(intervalRef.current);
-        return -maxValue;
-      }
-      return newPosition;
-    });
+    setPosition(() => handleMove(time));
   }, [time]);
 
   const reset = useCallback((handlePosition) => {
-    setTime(0);
-    handlePosition && setPosition(handlePosition(0))
-  }, []);
+    setTime(initialTime);
+    handlePosition && setPosition(handlePosition(initialTime))
+  }, [initialTime]);
 
 
   useImperativeHandle(ref, () => ({
@@ -77,14 +76,12 @@ const ChartVisualization = forwardRef( ({
         <div className={styles["slider-label"]}>{+maxValue.toFixed(2)}</div>
       </div>
       <div>
-        t:{" "}
-        <input
-          type="number"
-          value={Number.parseFloat(time).toFixed(2)}
-          step={0.1}
-          onChange={(e) => setTime(e.target.value)}
-        />
+        t:{" "}{Number.parseFloat(time).toFixed(2)}
       </div>
+      <div>
+        x(t):{" "}{Number.parseFloat(position).toFixed(2)}
+      </div>
+      <br />
       <button onClick={toggleMovement}>
         {isMoving ? "Stop" : "Visualize"}
       </button>

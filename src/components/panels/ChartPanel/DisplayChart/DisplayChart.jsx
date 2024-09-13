@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { INITIAL_DATA } from "../../../../../utils/helpers/data";
+import { INITIAL_DATA } from "../../../../utils/helpers/data";
 const DisplayChart = ({ data }) => {
   const graphData = useMemo(() => {
     return data ?? INITIAL_DATA;
@@ -21,13 +21,11 @@ const DisplayChart = ({ data }) => {
       <LineChart data={graphData}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
-          dataKey="x"
+          dataKey="t"
           padding={{ left: 30, right: 30 }}
           label={{ value: "t, s", position: "insideBottom", offset: -5 }}
           minTickGap={50}
-          tickFormatter={(value, index) => {
-            return index + 1;
-          }}
+          tickFormatter={(value) => Number.parseFloat(value).toFixed(3)}
         />
         <YAxis
           tickFormatter={(value) => Number.parseFloat(value).toFixed(3)}

@@ -9,6 +9,7 @@ const ChartPanel = forwardRef( ({
   stepSize,
   maxValue,
   initialPosition,
+  initialTime
 }, ref) => {
   const visualizationRef = useRef();
 
@@ -25,6 +26,7 @@ const ChartPanel = forwardRef( ({
         handleMove={handleMove}
         stepSize={stepSize}
         maxValue={maxValue}
+        initialTime={initialTime}
         initialPosition={initialPosition}
       />
     </div>
