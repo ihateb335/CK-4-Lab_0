@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./InputPanel.module.css";
+import { BLessThanK, KEqualsB, KLessThanB } from "../../../../utils/helpers/Lab1Functions";
 
 const VALUES_STEP = 0.1;
 
@@ -9,21 +10,24 @@ const InputPanel = ({ onCalculate }) => {
   const [x0, setX0] = useState(1.0);
 
   const [v0, setV0] = useState(1.5);
+  const [mu, setMu] = useState(0.1);
+  const [time, setTime] = useState(0);
   const [steps, setSteps] = useState(100);
-  const [stepSize, setStepSize] = useState(0.01);
+  const [stepSize, setStepSize] = useState(0.1);
 
   const k = useMemo(() => Math.sqrt(c / mass), [c, mass]);
-  const A = useMemo(() => x0, [x0]);
-  const B = useMemo(() => k / v0, [k, v0]);
-  const alpha = useMemo(() => Math.atan(A/B), [A,B] )
+  const b = useMemo(() => mu / mass / 2.0, [mu, mass]);
 
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
 
-      const maxValue = Math.sqrt(A * A + B * B);
-      const positionFunc = (t) => maxValue * Math.sin(k * t + alpha);
-      const velocityFunc = (t) => maxValue * k * Math.cos(k * t + alpha);
+      let result = KEqualsB(b, x0, v0);
+
+      if(k < b) result = KLessThanB(b, k, x0, v0);
+      if(b < k) result = BLessThanK(b, k, x0, v0);     
+
+      const { position: positionFunc, velocity: velocityFunc } = result;
 
       const data = Array.from({ length: steps }, (_, i) => {
         const x = i * stepSize;
@@ -37,19 +41,19 @@ const InputPanel = ({ onCalculate }) => {
       onCalculate &&
         onCalculate({
           data,
-          maxValue,
+          maxValue: data.reduce((a, b) => Math.max(a, b.position), -Infinity) || 1.6,
           positionFunc,
           velocityFunc,
           stepSize,
+          initialTime: time
         });
     },
-    [k, A, B, steps, stepSize, alpha]
+    [k, time, b, v0, x0, steps, stepSize]
   );
 
   useEffect(() => {
-    handleSubmit({preventDefault: () => {}})
-  }, [handleSubmit])
-
+    handleSubmit({ preventDefault: () => {} });
+  }, [handleSubmit]);
 
   return (
     <div className={styles.inputPanel}>
@@ -61,7 +65,7 @@ const InputPanel = ({ onCalculate }) => {
             value={mass}
             step={VALUES_STEP}
             min={0.1}
-            onChange={(e) => setMass(e.target.value)}
+            onChange={(e) => setMass(+e.target.value)}
           />{" "}
           kg
         </div>
@@ -72,7 +76,7 @@ const InputPanel = ({ onCalculate }) => {
             value={c}
             step={VALUES_STEP}
             min={0.1}
-            onChange={(e) => setC(e.target.value)}
+            onChange={(e) => setC(+e.target.value)}
           />{" "}
           N/kg
         </div>
@@ -82,7 +86,7 @@ const InputPanel = ({ onCalculate }) => {
             type="number"
             value={x0}
             step={VALUES_STEP}
-            onChange={(e) => setX0(e.target.value)}
+            onChange={(e) => setX0(+e.target.value)}
           />{" "}
           m
         </div>
@@ -92,19 +96,29 @@ const InputPanel = ({ onCalculate }) => {
             type="number"
             value={v0}
             step={VALUES_STEP}
-            onChange={(e) => setV0(e.target.value)}
+            onChange={(e) => setV0(+e.target.value)}
           />{" "}
           m/s
+        </div>
+        <div className={styles.inputField}>
+          <label>μ: </label>
+          <input
+            type="number"
+            value={mu}
+            step={VALUES_STEP}
+            min={0}
+            onChange={(e) => setMu(+e.target.value)}
+          />
         </div>
         <div className={styles.inputField}>
           <label>Steps: </label>
           <input
             type="number"
             value={steps}
-            step={VALUES_STEP}
+            step={1}
             min={1}
             max={1000}
-            onChange={(e) => setSteps(e.target.value)}
+            onChange={(e) => setSteps(+e.target.value)}
           />
         </div>
         <div className={styles.inputField}>
@@ -115,7 +129,16 @@ const InputPanel = ({ onCalculate }) => {
             min={10e-7}
             step={10e-7}
             max={1}
-            onChange={(e) => setStepSize(e.target.value)}
+            onChange={(e) => setStepSize(+e.target.value)}
+          />
+        </div>
+        <div className={styles.inputField}>
+          <label>Time: </label>
+          <input
+            type="number"
+            value={time}
+            step={0.1}
+            onChange={(e) => setTime(+e.target.value)}
           />
         </div>
         <div className={styles.buttonContainer}>
