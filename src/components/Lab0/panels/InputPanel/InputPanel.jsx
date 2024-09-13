@@ -42,9 +42,10 @@ const InputPanel = ({ onCalculate }) => {
           positionFunc,
           velocityFunc,
           stepSize,
+          initialTime: time
         });
     },
-    [k, A, B, steps, stepSize, alpha]
+    [k, time, A, B, steps, stepSize, alpha]
   );
 
   useEffect(() => {
