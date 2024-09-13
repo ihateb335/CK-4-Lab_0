@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import InputPanel from "./panels/InputPanel/InputPanel";
-import ChartPanel from "./panels/ChartPanel/ChartPanel";
+import ChartPanel from "../panels/ChartPanel/ChartPanel";
 import styles from "./Lab0.module.css";
 
 function Lab0() {
@@ -21,6 +21,7 @@ function Lab0() {
           handleMove={data?.positionFunc}
           stepSize={data?.stepSize}
           maxValue={data?.maxValue}
+          initialTime={data?.initialTime}
         />
       </div>
       <div className={styles["input-side"]}>
