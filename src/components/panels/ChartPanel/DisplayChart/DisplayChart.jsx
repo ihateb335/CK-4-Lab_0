@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { INITIAL_DATA } from "../../../../../utils/helpers/data";
+import { INITIAL_DATA } from "../../../../utils/helpers/data";
 const DisplayChart = ({ data }) => {
   const graphData = useMemo(() => {
     return data ?? INITIAL_DATA;
