@@ -21,6 +21,7 @@ function Lab1() {
           handleMove={data?.positionFunc}
           stepSize={data?.stepSize}
           maxValue={data?.maxValue}
+          initialTime={data?.initialTime}
         />
       </div>
       <div className={styles["input-side"]}>
