@@ -2,11 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Lab0 from './components/Lab0/Lab0';
+import Lab1 from './components/Lab1/Lab1';
+import Root from './components/Layouts/Root';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const router = createBrowserRouter(createRoutesFromElements([
+    <Route path="/" element={<Root />}>
+      <Route index element={<Lab0 />}/>
+      <Route path="lab1" element={<Lab1 />} />
+    </Route>
+]));
+
 root.render(
   <React.StrictMode>
-    <Lab0 />
+     <RouterProvider router={router} />
   </React.StrictMode>
 );
 

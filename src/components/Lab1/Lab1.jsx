@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
 import InputPanel from "./panels/InputPanel/InputPanel";
 import ChartPanel from "./panels/ChartPanel/ChartPanel";
-import styles from "./MainPage.module.css";
+import styles from "./Lab1.module.css";
 
-function MainPage() {
+function Lab1() {
   const [data, setData] = useState(null);
   const chartPanelRef = useRef();
 
@@ -30,4 +30,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default Lab1;
