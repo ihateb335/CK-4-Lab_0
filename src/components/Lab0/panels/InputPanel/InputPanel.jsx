@@ -15,6 +15,7 @@ const InputPanel = ({ onCalculate }) => {
   const k = useMemo(() => Math.sqrt(c / mass), [c, mass]);
   const A = useMemo(() => x0, [x0]);
   const B = useMemo(() => k / v0, [k, v0]);
+  const [time, setTime] = useState(0);
   const alpha = useMemo(() => Math.atan(A/B), [A,B] )
 
   const handleSubmit = useCallback(
@@ -116,6 +117,15 @@ const InputPanel = ({ onCalculate }) => {
             step={10e-7}
             max={1}
             onChange={(e) => setStepSize(e.target.value)}
+          />
+        </div>
+        <div className={styles.inputField}>
+          <label>Time: </label>
+          <input
+            type="number"
+            value={time}
+            step={0.1}
+            onChange={(e) => setTime(+e.target.value)}
           />
         </div>
         <div className={styles.buttonContainer}>
