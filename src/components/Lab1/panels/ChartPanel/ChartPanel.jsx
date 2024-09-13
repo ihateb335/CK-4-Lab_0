@@ -1,7 +1,7 @@
 import React, { forwardRef, useImperativeHandle, useRef } from "react";
 import styles from "./ChartPanel.module.css";
 import DisplayChart from "./DisplayChart/DisplayChart";
-import ChartVisualization from "./ChartVisualization/ChartVisualization";
+import ChartVisualization from "../../../ChartVisualization/ChartVisualization";
 
 const ChartPanel = forwardRef( ({
   data,
@@ -9,6 +9,7 @@ const ChartPanel = forwardRef( ({
   stepSize,
   maxValue,
   initialPosition,
+  initialTime
 }, ref) => {
   const visualizationRef = useRef();
 
@@ -25,6 +26,7 @@ const ChartPanel = forwardRef( ({
         handleMove={handleMove}
         stepSize={stepSize}
         maxValue={maxValue}
+        initialTime={initialTime}
         initialPosition={initialPosition}
       />
     </div>
