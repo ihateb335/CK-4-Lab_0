@@ -16,7 +16,8 @@ const InputPanel = ({ onCalculate }) => {
   const A = useMemo(() => x0, [x0]);
   const B = useMemo(() => k / v0, [k, v0]);
   const [time, setTime] = useState(0);
-  const alpha = useMemo(() => Math.atan(A/B), [A,B] )
+  const alpha = useMemo(() => Math.atan(A/B), [A,B] );
+  const period = useMemo(() => 2.0 * Math.PI / k, [k]);
 
   const handleSubmit = useCallback(
     (e) => {
@@ -125,9 +126,12 @@ const InputPanel = ({ onCalculate }) => {
           <input
             type="number"
             value={time}
-            step={0.1}
+            step={0.01}
             onChange={(e) => setTime(+e.target.value)}
           />
+        </div>
+        <div>
+          Period: {Number.parseFloat(period).toFixed(2)} s
         </div>
         <div className={styles.buttonContainer}>
           <button type="submit">Reset</button>
