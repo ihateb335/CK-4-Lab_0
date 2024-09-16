@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { INITIAL_DATA } from "../../../../utils/helpers/data";
 
 const radioTypes = {
   velocity: "velocity",
@@ -18,7 +19,7 @@ const radioTypes = {
 
 const emptyMode = {line: null, label: ''};
 
-import { INITIAL_DATA } from "../../../../utils/helpers/data";
+
 const DisplayChart = ({ data }) => {
   const [mode, setMode] = useState();
 
